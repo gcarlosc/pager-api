@@ -3,23 +3,20 @@ module PagerApi
     module WillPaginate
 
       def paginate(*args)
-        puts args
-        puts args.extract_options!
         options = args.extract_options!
         collection = args.first
+        p options
         paginated_collection = paginate_collection(collection, options)
         options[:json] = paginated_collection
         options[:meta] = meta(paginated_collection, options) if PagerApi.include_pagination_on_meta?
         pagination_headers(paginated_collection) if PagerApi.include_pagination_headers?
+        p 'last options'
+        p options
         render options
       end
 
       private
 
-      # Link: <http://example.com/api/v1/users?page="2">; rel="next",
-      # <http://example.com/api/v1//users?page="5">; rel="last",
-      # <http://example.com/api/v1//users?page="1">; rel="first",
-      # <http://example.com/api/v1/users?page="1">; rel="prev",
       def pagination_headers(collection)
         links = (headers['Link'] || "").split(',').map(&:strip)
         clean_url = request.original_url.sub(/\?.*$/, '')
@@ -64,6 +61,7 @@ module PagerApi
         wp_params = {}
         wp_params[:page] = params[:page] || 1
         wp_params[:per_page] = options.delete(:per_page) || params[:per_page]
+        p wp_params
         collection.paginate(wp_params)
       end
 
