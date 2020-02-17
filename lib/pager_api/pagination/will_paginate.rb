@@ -3,6 +3,8 @@ module PagerApi
     module WillPaginate
 
       def paginate(*args)
+        puts args
+        puts args.extract_options!
         options = args.extract_options!
         collection = args.first
         paginated_collection = paginate_collection(collection, options)
