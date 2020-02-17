@@ -12,6 +12,7 @@ module PagerApi
         pagination_headers(paginated_collection) if PagerApi.include_pagination_headers?
         p 'last options'
         p options
+        binding.pry
         render options
       end
 
