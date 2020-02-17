@@ -61,11 +61,10 @@ module PagerApi
       end
 
       def paginate_collection(collection, options = {})
-        options[:page] = params[:page] || 1
-        options[:per_page] = options.delete(:per_page) || params[:per_page]
-        options[:serializer] = options.delete(:serializer)
-        options[:each_serializer] = options.delete(:each_serializer)
-        collection.paginate(options)
+        wp_params = {}
+        wp_params[:page] = params[:page] || 1
+        wp_params[:per_page] = options.delete(:per_page) || params[:per_page]
+        collection.paginate(wp_params)
       end
 
       def meta(collection, options = {})
