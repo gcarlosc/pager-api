@@ -5,14 +5,10 @@ module PagerApi
       def paginate(*args)
         options = args.extract_options!
         collection = args.first
-        p options
         paginated_collection = paginate_collection(collection, options)
         options[:json] = paginated_collection
         options[:meta] = meta(paginated_collection, options) if PagerApi.include_pagination_on_meta?
         pagination_headers(paginated_collection) if PagerApi.include_pagination_headers?
-        p 'last options'
-        p options
-        binding.pry
         render options
       end
 
@@ -62,7 +58,6 @@ module PagerApi
         wp_params = {}
         wp_params[:page] = params[:page] || 1
         wp_params[:per_page] = options.delete(:per_page) || params[:per_page]
-        p wp_params
         collection.paginate(wp_params)
       end
 
